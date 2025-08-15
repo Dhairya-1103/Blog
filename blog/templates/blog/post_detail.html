@@ -1,0 +1,44 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+  <article class="mb-4">
+    <h2>{{ post.title }}</h2>
+    <p class="text-muted">by {{ post.author.username }} • {{ post.created|date:"M d, Y H:i" }}</p>
+    <div class="mb-3">{{ post.body|linebreaks }}</div>
+    <div class="mb-3">
+      {% for t in post.tags.all %}
+        <a class="badge bg-secondary text-decoration-none" href="{% url 'post_list_by_tag' t.slug %}">{{ t.name }}</a>
+      {% endfor %}
+    </div>
+    {% if user == post.author %}
+      <a href="{% url 'post_edit' post.pk %}" class="btn btn-sm btn-primary">Edit</a>
+      <form method="post" action="{% url 'post_delete' post.pk %}" class="d-inline">
+        {% csrf_token %}
+        <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+      </form>
+    {% endif %}
+  </article>
+
+  <section>
+    <h4>Comments</h4>
+    <ul class="list-group mb-3">
+      {% for c in comments %}
+        <li class="list-group-item">
+          <strong>{{ c.author.username }}</strong> • <small>{{ c.created|date:"M d, Y H:i" }}</small>
+          <div>{{ c.body|linebreaks }}</div>
+        </li>
+      {% empty %}
+        <li class="list-group-item">No comments yet.</li>
+      {% endfor %}
+    </ul>
+
+    {% if user.is_authenticated %}
+      <form method="post" action="{% url 'add_comment' post.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-success">Add Comment</button>
+      </form>
+    {% else %}
+      <p><a href="{% url 'login' %}">Log in</a> to comment.</p>
+    {% endif %}
+  </section>
+{% endblock %}

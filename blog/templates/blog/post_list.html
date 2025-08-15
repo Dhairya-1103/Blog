@@ -1,0 +1,26 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+  {% if active_tag %}
+    <h3>Posts tagged with "{{ active_tag.name }}"</h3>
+  {% elif query %}
+    <h3>Search results for "{{ query }}"</h3>
+  {% else %}
+    <h3>Latest Posts</h3>
+  {% endif %}
+  <div class="list-group">
+    {% for post in posts %}
+      <a class="list-group-item list-group-item-action" href="{% url 'post_detail' post.pk %}">
+        <h5 class="mb-1">{{ post.title }}</h5>
+        <small>by {{ post.author.username }} • {{ post.created|date:"M d, Y" }}</small>
+        <p class="mb-1 text-truncate">{{ post.body|striptags|truncatechars:140 }}</p>
+        <div>
+          {% for t in post.tags.all %}
+            <a class="badge bg-secondary text-decoration-none" href="{% url 'post_list_by_tag' t.slug %}">{{ t.name }}</a>
+          {% endfor %}
+        </div>
+      </a>
+    {% empty %}
+      <p>No posts yet.</p>
+    {% endfor %}
+  </div>
+{% endblock %}
