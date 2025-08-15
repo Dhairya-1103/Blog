@@ -1,4 +1,4 @@
-# Thapar Blog (Django)
+# Blog 
 
 A simple, production-ready starter blog built with **Django**, featuring posts, tags, comments, search, and auth.
 
@@ -8,7 +8,6 @@ A simple, production-ready starter blog built with **Django**, featuring posts, 
 - Tagging + tag pages
 - Full-text search (title/body/tags)
 - Auth (login/logout) using Django's built-in views
-- SQLite out of the box, easy to switch to Postgres
 - Bootstrap UI (CDN)
 
 ## Quickstart
@@ -26,18 +25,15 @@ Open http://127.0.0.1:8000/ in your browser.
 
 ## Project Structure
 ```
-thapar_blog/
+myblog/
   blog/
     templates/blog/
     templates/registration/
   static/
-  thapar_blog/
+  myblog/
 ```
 ## Environment
 - Django 4.2
 - Python 3.10+
 - Timezone: Asia/Kolkata
 
-## Next Steps
-- Add pagination, image uploads, Markdown, draft workflow
-- Deploy to Render/Fly/Heroku; switch DB to Postgres for production
